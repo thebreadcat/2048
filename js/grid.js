@@ -1,5 +1,6 @@
 function Grid(size, previousState) {
   this.size = size;
+  this.spiralval = 0;
   this.cells = previousState ? this.fromState(previousState) : this.empty();
 }
 
@@ -42,6 +43,23 @@ Grid.prototype.randomAvailableCell = function () {
   }
 };
 
+Grid.prototype.spiralAvailableCell = function () {
+  spiralcoords = [ [ 0, 0 ], [ 1, 0 ], [ 2, 0 ], [ 3, 0 ],  
+                   [ 3, 1 ], [ 3, 2 ], [ 3, 3 ], [ 2, 3 ],
+                   [ 1, 3 ], [ 0, 3 ], [ 0, 2 ], [ 0, 1 ], 
+                   [ 1, 1 ], [ 2, 1 ], [ 2, 2 ], [ 1, 2 ] ];
+
+  while( true ) {
+    var sv = this.spiralval % 16;
+    this.spiralval += 1;
+    var sp = spiralcoords[ sv ];
+    var sx = sp[0];
+    var sy = sp[1];
+    if( this.cells[sx][sy] == null )
+      return {x: sx, y: sy};
+  }
+}; 
+ 
 Grid.prototype.availableCells = function () {
   var cells = [];
 
